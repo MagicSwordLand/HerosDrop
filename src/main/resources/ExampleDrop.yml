@@ -1,0 +1,5 @@
+isBoss: true
+exp: 100
+reward:
+  10-20:
+    command: "give"

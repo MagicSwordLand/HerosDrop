@@ -7,12 +7,18 @@ import io.lumine.xikage.mythicmobs.skills.SkillMechanic
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata
 import io.lumine.xikage.mythicmobs.skills.placeholders.parsers.PlaceholderDouble
 import net.brian.herosdrop.configs.SettingsConfig
+import net.brian.herosdrop.services.DistinguishService
 import net.brian.herosdrop.services.MobService
 import org.bukkit.entity.Damageable
 import org.bukkit.entity.Player
 import kotlin.math.min
 
-class HeroHealingMechanic(skill:String, mlc: MythicLineConfig, private val mobService: MobService, private val settingsConfig: SettingsConfig): SkillMechanic(skill,mlc),ITargetedEntitySkill {
+class HeroHealingMechanic(
+    skill:String, mlc: MythicLineConfig,
+    private val mobService: MobService,
+    private val settingsConfig: SettingsConfig,
+    private val distinguishService: DistinguishService
+): SkillMechanic(skill,mlc),ITargetedEntitySkill {
 
     private var placeholderAmount:PlaceholderDouble;
     private var usePercent: Boolean;
@@ -28,8 +34,11 @@ class HeroHealingMechanic(skill:String, mlc: MythicLineConfig, private val mobSe
     override fun castAtEntity(meta: SkillMetadata?, entity: AbstractEntity): Boolean {
         val caster = meta?.caster?.entity?.bukkitEntity;
         var heal = placeholderAmount.get(meta, entity);
+        if(caster == null){
+            return true;
+        }
 
-        if(entity.isDamageable){
+        if(entity.isDamageable && !distinguishService.isAlly(caster,entity.bukkitEntity)){
             if(usePercent){
                 heal *= entity.maxHealth;
             }

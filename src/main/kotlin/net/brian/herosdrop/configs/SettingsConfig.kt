@@ -5,8 +5,15 @@ import org.bukkit.entity.Entity
 
 class SettingsConfig {
 
-    var scoreString:String = "%heal% + %damage% + %tank%";
+    private var scoreString:String = "0.6*%heal% + %damage% + %tank%";
     var combatRange:Double = 10.0;
+
+    var bossEndMessage:ArrayList<String> = arrayListOf(
+        "傷害第一: 玩家{0} 造成傷害{1} {2}%",
+        "治療第一: 玩家{3} 治療了{4} {5}%",
+        "坦傷第一: 玩家{6} 坦了{7} {8}%"
+    )
+    var checkMessage = "點擊查看詳細結果"
 
     fun shouldCount(entity: Entity) :Boolean{
         return true;

@@ -36,7 +36,7 @@ dependencies {
     // Load jar libraries from "libs" folder
     compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("net.objecthunter:exp4j:0.4.8")
-
+    implementation(fileTree(mapOf("dir" to "compilelibs", "include" to listOf("*.jar"))))
     /** The external library you would like to use */
     /** implementation("...")    */
 }
